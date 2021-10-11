@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 public class SampleNonWebConfig {
 
 	@Bean
-	public SampleNonWebBean sampleBean() {
+	public SampleNonWebBean sampleNonWebBean() {
 		return new SampleNonWebBean();
 	}
 	

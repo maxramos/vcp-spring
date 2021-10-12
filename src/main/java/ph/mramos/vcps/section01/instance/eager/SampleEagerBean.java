@@ -6,11 +6,11 @@ public class SampleEagerBean implements InitializingBean {
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
-		System.out.println("SampleEagerBean afterPropertiesSet");
+		System.out.println("SampleEagerBean#afterPropertiesSet");
 	}
 
 	public void run() {
-		System.out.println("Sample Eager Bean.");
+		System.out.println("SampleEagerBean#run");
 	}
 
 }

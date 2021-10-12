@@ -6,11 +6,11 @@ public class SampleLazyBean implements InitializingBean {
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
-		System.out.println("SampleLazyBean afterPropertiesSet");
+		System.out.println("SampleLazyBean#afterPropertiesSet");
 	}
 
 	public void run() {
-		System.out.println("Sample Lazy Bean.");
+		System.out.println("SampleLazyBean#run");
 	}
 
 }

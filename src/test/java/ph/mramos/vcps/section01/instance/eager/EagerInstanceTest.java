@@ -13,7 +13,7 @@ public class EagerInstanceTest {
 
 	@Test
 	public void test_eager_instance() {
-		System.out.println("Eager Instance Test"); // Should be executed last.
+		System.out.println("Should be executed last."); // Should be executed last.
 		appContext.getBean(SampleEagerBean.class);
 		appContext.getBean(SampleEagerComponent.class);
 	}

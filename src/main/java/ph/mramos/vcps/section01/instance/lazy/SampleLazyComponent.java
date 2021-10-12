@@ -10,11 +10,11 @@ public class SampleLazyComponent implements InitializingBean {
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
-		System.out.println("SampleLazyComponent afterPropertiesSet");
+		System.out.println("SampleLazyComponent#afterPropertiesSet");
 	}
 
 	public void run() {
-		System.out.println("Sample Lazy Component.");
+		System.out.println("SampleLazyComponent#run");
 	}
 
 }

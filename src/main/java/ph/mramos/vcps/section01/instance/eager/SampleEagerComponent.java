@@ -8,11 +8,11 @@ public class SampleEagerComponent implements InitializingBean {
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
-		System.out.println("SampleEagerComponent afterPropertiesSet");
+		System.out.println("SampleEagerComponent#afterPropertiesSet");
 	}
 
 	public void run() {
-		System.out.println("Sample Eager Component.");
+		System.out.println("SampleEagerComponent#run");
 	}
 
 }

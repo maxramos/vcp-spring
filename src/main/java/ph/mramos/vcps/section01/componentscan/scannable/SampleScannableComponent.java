@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 public class SampleScannableComponent {
 
 	public void run() {
-		System.out.println("Sample Scannable Component.");
+		System.out.println("SampleScannableComponent#run");
 	}
 
 }

@@ -18,7 +18,7 @@ public class AppContextTest {
 	private SampleNonWebObj sampleNonWebObj;
 
 	@Test
-	public void test_appContext() {
+	public void test_app_context() {
 		sampleNonWebBean.run();
 
 		SampleNonWebBean bean1 = appContext.getBean(SampleNonWebBean.class);

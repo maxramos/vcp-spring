@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 public class SampleNonWebComponent {
 
 	public void run() {
-		System.out.println("Sample Non Web Component.");
+		System.out.println("SampleNonWebComponent#run");
 	}
-	
+
 }

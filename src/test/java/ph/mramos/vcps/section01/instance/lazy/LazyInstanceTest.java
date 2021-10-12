@@ -13,7 +13,7 @@ public class LazyInstanceTest {
 
 	@Test
 	public void test_lazy_instance() {
-		System.out.println("Lazy Instance Test"); // Should be executed first.
+		System.out.println("Should be executed first."); // Should be executed first.
 		appContext.getBean(SampleLazyBean.class);
 		appContext.getBean(SampleLazyComponent.class);
 	}

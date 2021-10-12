@@ -11,8 +11,9 @@ public class SamplePropertySourceBean {
 	private String sampleKeyWeb;
 
 	public void run() {
-		System.out.println("SamplePropertySourceBean: " + sampleKey);
-		System.out.println("SamplePropertySourceBean: " + sampleKeyWeb);
+		System.out.println("SamplePropertySourceBean#run");
+		System.out.println("sampleKey: " + sampleKey);
+		System.out.println("sampleKeyWeb: " + sampleKeyWeb);
 	}
 
 }

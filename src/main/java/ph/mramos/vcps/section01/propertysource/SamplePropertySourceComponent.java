@@ -13,8 +13,9 @@ public class SamplePropertySourceComponent {
 	private String sampleKeyWeb;
 
 	public void run() {
-		System.out.println("SamplePropertySourceComponent: " + sampleKey);
-		System.out.println("SamplePropertySourceComponent: " + sampleKeyWeb);
+		System.out.println("SamplePropertySourceComponent#run");
+		System.out.println("sampleKey: " + sampleKey);
+		System.out.println("sampleKeyWeb: " + sampleKeyWeb);
 	}
 
 }

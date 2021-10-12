@@ -19,16 +19,16 @@ public class SampleController implements InitializingBean {
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
-		System.out.println("afterPropertiesSet");
+		System.out.println("SampleController#afterPropertiesSet");
 	}
 
 	@GetMapping("/doGet")
 	@ResponseBody
 	public String doGet() {
-		System.out.println("Sample Controller.");
+		System.out.println("SampleController#doGet");
 		sampleNonWebBean.run();
 		sampleWebBean.run();
-		return "Sample Controller.";
+		return "SampleController.";
 	}
 
 }

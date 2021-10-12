@@ -24,8 +24,8 @@ public class ComponentScanTest {
 	public void test_component_scan() {
 		sampleScannableBean.run();
 		sampleScannableComponent.run();
-		System.out.println(appContext.containsBean("includedRepository"));
-		System.out.println(appContext.containsBean("excludedService"));
+		System.out.println("Contains: " + appContext.containsBean("includedRepository"));
+		System.out.println("Contains: " + appContext.containsBean("excludedService"));
 	}
 
 }

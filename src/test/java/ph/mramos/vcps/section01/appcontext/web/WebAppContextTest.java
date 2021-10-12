@@ -17,9 +17,9 @@ public class WebAppContextTest {
 	private SampleController sampleController;
 
 	@Test
-	public void test_webAppContext() {
-		System.out.println(appContext);
+	public void test_web_app_context() {
 		System.out.println(sampleController.doGet());
+		System.out.println(appContext);
 	}
 
 }

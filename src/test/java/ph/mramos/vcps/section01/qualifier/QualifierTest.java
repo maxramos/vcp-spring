@@ -14,11 +14,15 @@ public class QualifierTest {
 
 	@Qualifier("sqb1i1")
 	@Autowired
-	private SampleQualifiedBean1 sampleQualifiedBean1Field1;
+	private SampleQualifiedBean1 sampleQualifiedBean1Instance1Field1;
 
 	@Qualifier("sampleBean")
 	@Autowired
-	private SampleQualifiedBean1 sampleQualifiedBean1Field2;
+	private SampleQualifiedBean1 sampleQualifiedBean1Instance1Field2;
+
+	@Qualifier("sqb1i2")
+	@Autowired
+	private SampleQualifiedBean1 sampleQualifiedBean1Instance2;
 
 	@Qualifier("sqb2")
 	@Autowired
@@ -60,17 +64,19 @@ public class QualifierTest {
 	public void test_qualifier() {
 		sampleQualifiedBean0.run();
 
-		sampleQualifiedBean1Field1.run();
-		sampleQualifiedBean1Field2.run();
+		sampleQualifiedBean1Instance1Field1.run();
+		sampleQualifiedBean1Instance1Field2.run();
+		sampleQualifiedBean1Instance2.run();
 
-		System.out.println("SampleQualifiedBean1 1 == 2: " + (sampleQualifiedBean1Field1 == sampleQualifiedBean1Field2));
+		System.out.println("SampleQualifiedBean1Instance1 Field 1 == 2: " + (sampleQualifiedBean1Instance1Field1 == sampleQualifiedBean1Instance1Field2));
+		System.out.println("SampleQualifiedBean1 Instance 1 == 2: " + (sampleQualifiedBean1Instance1Field1 == sampleQualifiedBean1Instance2));
 
 		sampleQualifiedBean2Field1.run();
 		sampleQualifiedBean2Field2.run();
 		sampleQualifiedBean2Field3.run();
 
-		System.out.println("SampleQualifiedBean2 1 == 2: " + (sampleQualifiedBean2Field1 == sampleQualifiedBean2Field2));
-		System.out.println("SampleQualifiedBean2 2 == 3: " + (sampleQualifiedBean2Field2 == sampleQualifiedBean2Field3));
+		System.out.println("SampleQualifiedBean2 Field 1 == 2: " + (sampleQualifiedBean2Field1 == sampleQualifiedBean2Field2));
+		System.out.println("SampleQualifiedBean2 Field 2 == 3: " + (sampleQualifiedBean2Field2 == sampleQualifiedBean2Field3));
 
 		System.out.println();
 
@@ -79,14 +85,14 @@ public class QualifierTest {
 		sampleQualifiedComponent1Field1.run();
 		sampleQualifiedComponent1Field2.run();
 
-		System.out.println("SampleQualifiedComponent1 1 == 2: " + (sampleQualifiedComponent1Field1 == sampleQualifiedComponent1Field2));
+		System.out.println("SampleQualifiedComponent1 Field 1 == 2: " + (sampleQualifiedComponent1Field1 == sampleQualifiedComponent1Field2));
 
 		sampleQualifiedComponent2Field1.run();
 		sampleQualifiedComponent2Field2.run();
 		sampleQualifiedComponent2Field3.run();
 
-		System.out.println("SampleQualifiedComponent2 1 == 2: " + (sampleQualifiedComponent2Field1 == sampleQualifiedComponent2Field2));
-		System.out.println("SampleQualifiedComponent2 2 == 3: " + (sampleQualifiedComponent2Field2 == sampleQualifiedComponent2Field3));
+		System.out.println("SampleQualifiedComponent2 Field 1 == 2: " + (sampleQualifiedComponent2Field1 == sampleQualifiedComponent2Field2));
+		System.out.println("SampleQualifiedComponent2 Field 2 == 3: " + (sampleQualifiedComponent2Field2 == sampleQualifiedComponent2Field3));
 	}
 
 }

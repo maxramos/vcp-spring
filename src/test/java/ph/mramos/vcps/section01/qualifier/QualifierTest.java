@@ -60,6 +60,9 @@ public class QualifierTest {
 	@Autowired
 	private SampleQualifiedComponent2 sampleQualifiedComponent2Field3;
 
+	@Autowired
+	private SampleQualifiedBean3 sampleQualifiedBean3;
+
 	@Test
 	public void test_qualifier() {
 		sampleQualifiedBean0.run();
@@ -93,6 +96,10 @@ public class QualifierTest {
 
 		System.out.println("SampleQualifiedComponent2 Field 1 == 2: " + (sampleQualifiedComponent2Field1 == sampleQualifiedComponent2Field2));
 		System.out.println("SampleQualifiedComponent2 Field 2 == 3: " + (sampleQualifiedComponent2Field2 == sampleQualifiedComponent2Field3));
+
+		System.out.println();
+
+		sampleQualifiedBean3.run();
 	}
 
 }

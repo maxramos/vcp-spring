@@ -33,4 +33,15 @@ public class SampleQualifiedConfig {
 		return new SampleQualifiedBean2();
 	}
 
+	@Bean
+	public SampleQualifiedBean3 sampleQualifiedBean3Instance1() {
+		SampleQualifiedBean3 instance2 = sampleQualifiedBean3Instance2();
+		return instance2; // Init method will be called twice even if only one instance was created.
+	}
+
+	@Bean(autowireCandidate = false) // Will not be included when processing @Autowired. Useful for being called directly (i.e. from another bean definition).
+	public SampleQualifiedBean3 sampleQualifiedBean3Instance2() {
+		return new SampleQualifiedBean3();
+	}
+
 }

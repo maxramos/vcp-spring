@@ -20,7 +20,7 @@ public class SampleDataSourceTest {
 	private DataSource dataSource;
 
 	@Test
-	public void testSelect() {
+	public void test_executeQuery() {
 		Connection conn = DataSourceUtils.getConnection(dataSource);
 
 		try {

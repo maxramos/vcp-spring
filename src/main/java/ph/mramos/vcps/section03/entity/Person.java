@@ -1,4 +1,4 @@
-package ph.mramos.vcps.section03.jpa_transaction.entity;
+package ph.mramos.vcps.section03.entity;
 
 import java.util.Date;
 
@@ -47,28 +47,56 @@ public class Person {
 		return id;
 	}
 
+	public void setId(int id) {
+		this.id = id;
+	}
+
 	public String getFirstName() {
 		return firstName;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
 	}
 
 	public String getLastName() {
 		return lastName;
 	}
 
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
 	public int getAge() {
 		return age;
+	}
+
+	public void setAge(int age) {
+		this.age = age;
 	}
 
 	public Date getBithDate() {
 		return bithDate;
 	}
 
+	public void setBithDate(Date bithDate) {
+		this.bithDate = bithDate;
+	}
+
 	public double getWeight() {
 		return weight;
 	}
 
+	public void setWeight(double weight) {
+		this.weight = weight;
+	}
+
 	public double getHeight() {
 		return height;
+	}
+
+	public void setHeight(double height) {
+		this.height = height;
 	}
 
 	@Override

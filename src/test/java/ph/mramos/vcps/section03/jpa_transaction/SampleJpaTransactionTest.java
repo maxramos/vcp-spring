@@ -12,7 +12,7 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.springframework.transaction.annotation.Transactional;
 
-import ph.mramos.vcps.section03.jpa_transaction.entity.Person;
+import ph.mramos.vcps.section03.entity.Person;
 
 @SpringJUnitConfig(classes = SampleJpaTransactionConfig.class)
 public class SampleJpaTransactionTest {

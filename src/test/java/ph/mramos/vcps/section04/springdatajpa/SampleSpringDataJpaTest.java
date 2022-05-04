@@ -17,7 +17,6 @@ import org.springframework.data.repository.query.FluentQuery;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import ph.mramos.vcps.section03.entity.Person;
-import ph.mramos.vcps.section04.springdatajpa.SampleSpringDataJpaConfig;
 import ph.mramos.vcps.section04.springdatajpa.repository.PersonRepository;
 
 @SpringJUnitConfig(classes = SampleSpringDataJpaConfig.class)
@@ -103,15 +102,31 @@ public class SampleSpringDataJpaTest {
 	}
 
 	@Test
-	public void findFirst2ByLastNameIgnoreCaseOrderByFirstNameDesc() {
+	public void test_findFirst2ByLastNameIgnoreCaseOrderByFirstNameDesc() {
 		List<Person> persons = personRepository.findFirst2ByLastNameIgnoreCaseOrderByFirstNameDesc("RAMOS");
 		persons.forEach(System.out::println);
 	}
 
 	@Test
-	public void findByFirstNameOrderByFirstNameDesc() {
+	public void test_findByFirstNameOrderByFirstNameDesc() {
 		List<Person> persons = personRepository.findByFirstNameOrderByFirstNameDesc("%ma%");
 		persons.forEach(System.out::println);
+	}
+
+	@Test
+	public void test_count() {
+		long count = personRepository.count();
+		System.out.println(count);
+	}
+
+	@Test
+	public void test_exists() {
+		Person person = new Person();
+		person.setFirstName("MAX");
+		Example<Person> example = Example.of(person, ExampleMatcher.matchingAny().withIgnoreCase());
+
+		boolean exist = personRepository.exists(example);
+		System.out.println(exist);
 	}
 
 }

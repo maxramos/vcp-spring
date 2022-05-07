@@ -7,6 +7,37 @@
 <title>Person</title>
 </head>
 <body>
-Person
+<table>
+	<tbody>
+		<tr>
+			<td>id</td>
+			<td>${person.id}</td>
+		</tr>
+		<tr>
+			<td>firstName</td>
+			<td>${person.firstName}</td>
+		</tr>
+		<tr>
+			<td>lastName</td>
+			<td>${person.lastName}</td>
+		</tr>
+		<tr>
+			<td>age</td>
+			<td>${person.age}</td>
+		</tr>
+		<tr>
+			<td>birthDate</td>
+			<td>${person.birthDate}</td>
+		</tr>
+		<tr>
+			<td>weight</td>
+			<td>${person.weight}</td>
+		</tr>
+		<tr>
+			<td>height</td>
+			<td>${person.height}</td>
+		</tr>
+	</tbody>
+</table>
 </body>
 </html>

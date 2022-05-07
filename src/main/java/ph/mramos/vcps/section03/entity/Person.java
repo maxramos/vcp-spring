@@ -24,7 +24,7 @@ public class Person {
 
 	@Temporal(TemporalType.DATE)
 	@Column(name = "birth_date")
-	private Date bithDate;
+	private Date birthDate;
 
 	private double weight;
 
@@ -34,11 +34,11 @@ public class Person {
 		super();
 	}
 
-	public Person(String firstName, String lastName, int age, Date bithDate, double weight, double height) {
+	public Person(String firstName, String lastName, int age, Date birthDate, double weight, double height) {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.age = age;
-		this.bithDate = bithDate;
+		this.birthDate = birthDate;
 		this.weight = weight;
 		this.height = height;
 	}
@@ -75,12 +75,12 @@ public class Person {
 		this.age = age;
 	}
 
-	public Date getBithDate() {
-		return bithDate;
+	public Date getBirthDate() {
+		return birthDate;
 	}
 
-	public void setBithDate(Date bithDate) {
-		this.bithDate = bithDate;
+	public void setBirthDate(Date birthDate) {
+		this.birthDate = birthDate;
 	}
 
 	public double getWeight() {
@@ -101,7 +101,7 @@ public class Person {
 
 	@Override
 	public String toString() {
-		return String.format("Person [id=%s, firstName=%s, lastName=%s, age=%s, bithDate=%s, weight=%s, height=%s]", id, firstName, lastName, age, bithDate, weight, height);
+		return String.format("Person [id=%s, firstName=%s, lastName=%s, age=%s, birthDate=%s, weight=%s, height=%s]", id, firstName, lastName, age, birthDate, weight, height);
 	}
 
 }

@@ -28,7 +28,7 @@ public class SampleJpaTransactionTest {
 	}
 
 	@Test
-	@Transactional
+	@Transactional // Be careful to import org.springframework.transaction.annotation.Transactional and NOT javax.transaction.Transactional otherwise there will be errors.
 	@Rollback(false)
 	public void test_transaction() {
 		@SuppressWarnings("deprecation")

@@ -3,6 +3,7 @@ package ph.mramos.vcps.section04.springdatajpa;
 import javax.sql.DataSource;
 
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
@@ -15,11 +16,14 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @Configuration
 @EnableTransactionManagement
 @EnableJpaRepositories
+@ComponentScan(basePackages = "ph.mramos.vcps.section04.springdatajpa.service")
 public class SampleSpringDataJpaConfig {
 
 	@Bean
 	public DataSource dataSource() {
-		return new DriverManagerDataSource("jdbc:mysql://localhost:3306/spring_cert", "admin", "giselles");
+		DriverManagerDataSource dataSource = new DriverManagerDataSource ("jdbc:mysql://localhost:3306/spring_cert", "admin", "giselles");
+		dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
+		return dataSource;
 	}
 
 	@Bean

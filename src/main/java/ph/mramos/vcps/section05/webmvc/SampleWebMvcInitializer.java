@@ -2,11 +2,13 @@ package ph.mramos.vcps.section05.webmvc;
 
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
+import ph.mramos.vcps.section04.springdatajpa.SampleSpringDataJpaConfig;
+
 public class SampleWebMvcInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
 
 	@Override
 	protected Class<?>[] getRootConfigClasses() {
-		return null;
+		return new Class[] { SampleSpringDataJpaConfig.class };
 	}
 
 	@Override

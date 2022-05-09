@@ -23,8 +23,8 @@ public class PersonController {
 	private PersonService personService;
 
 	@GetMapping("/{id}")
-	public String get(@PathVariable int id, Model model) {
-		Person person = personService.getById(id);
+	public String find(@PathVariable int id, Model model) {
+		Person person = personService.findById(id);
 		model.addAttribute("person", person);
 		return "person";
 	}

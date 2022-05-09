@@ -18,10 +18,11 @@ public class PersonService {
 	@Autowired
 	private PersonRepository personRepository;
 
-	public Person getById(int id) {
-		Person person = personRepository.getById(id);
-		System.out.println(person); // Must first load the fields from the database to prevent the error: "Hibernate could not initialize proxy – no Session".
-		return person;
+	public Person findById(int id) {
+//		Person person = personRepository.getById(id); // causes "Hibernate could not initialize proxy – no Session" if fields are not all fetch before the transaction ends.
+//		System.out.println(person);
+		Optional<Person> result = personRepository.findById(id);
+		return result.get();
 	}
 
 	public Person findByFirstName(String firstName) {

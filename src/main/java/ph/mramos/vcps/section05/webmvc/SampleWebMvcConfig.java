@@ -9,10 +9,10 @@ import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.util.UrlPathHelper;
 
-@Configuration
-@EnableWebMvc
+@Configuration // Required in either WebMvcConfigurer or WebMvcConfigurationSupport.
+@EnableWebMvc // If implements WebMvcConfigurer then @EnableWebMvc must be present. if extends WebMvcConfigurationSupport then @EnableWebMvc must NOT be present.
 @ComponentScan(basePackages = "ph.mramos.vcps.section05.webmvc.controller")
-public class SampleWebMvcConfig implements WebMvcConfigurer {
+public class SampleWebMvcConfig implements WebMvcConfigurer /* extends WebMvcConfigurationSupport */ {
 
 	@Override
 	public void configureViewResolvers(ViewResolverRegistry registry) {

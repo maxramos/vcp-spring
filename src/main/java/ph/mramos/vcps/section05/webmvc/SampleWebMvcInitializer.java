@@ -3,13 +3,13 @@ package ph.mramos.vcps.section05.webmvc;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 import ph.mramos.vcps.section04.springdatajpa.SampleSpringDataJpaConfig;
-import ph.mramos.vcps.section06.security.SampleWebSecurityConfig;
+import ph.mramos.vcps.section06.security.MultiWebSecurityConfig;
 
 public class SampleWebMvcInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
 
 	@Override
 	protected Class<?>[] getRootConfigClasses() {
-		return new Class[] { SampleSpringDataJpaConfig.class, SampleWebSecurityConfig.class };
+		return new Class[] { SampleSpringDataJpaConfig.class, MultiWebSecurityConfig.class }; // Security config must be declared here.
 	}
 
 	@Override

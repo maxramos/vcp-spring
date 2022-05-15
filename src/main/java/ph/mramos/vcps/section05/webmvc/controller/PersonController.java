@@ -1,6 +1,9 @@
 package ph.mramos.vcps.section05.webmvc.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,6 +35,14 @@ public class PersonController {
 	@GetMapping("/find")
 	public String find(@RequestParam String firstName, Model model) { // @RequestParam can be query params or form params.
 		Person person = personService.findByFirstName(firstName);
+		model.addAttribute("person", person);
+		return "person";
+	}
+
+	@PreAuthorize("hasRole('admin') and #userDetails.username == authentication.name")
+	@GetMapping("/admin")
+	public String findSuperAdmin(@AuthenticationPrincipal UserDetails userDetails, Model model) {
+		Person person = personService.findByFirstName(userDetails.getUsername());
 		model.addAttribute("person", person);
 		return "person";
 	}

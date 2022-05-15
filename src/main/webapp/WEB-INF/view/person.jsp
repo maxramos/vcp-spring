@@ -7,7 +7,7 @@
 <title>Person</title>
 </head>
 <body>
-<table>
+<table border="1">
 	<tbody>
 		<tr>
 			<td>id</td>

@@ -11,7 +11,10 @@ import org.springframework.web.util.UrlPathHelper;
 
 @Configuration // Required in either WebMvcConfigurer or WebMvcConfigurationSupport.
 @EnableWebMvc // If implements WebMvcConfigurer then @EnableWebMvc must be present. if extends WebMvcConfigurationSupport then @EnableWebMvc must NOT be present.
-@ComponentScan(basePackages = "ph.mramos.vcps.section05.webmvc.controller")
+@ComponentScan(basePackages = {
+		"ph.mramos.vcps.section05.webmvc.controller",
+		"ph.mramos.vcps.section07.rest.controller"
+	})
 public class SampleWebMvcConfig implements WebMvcConfigurer /* extends WebMvcConfigurationSupport */ {
 
 	@Override
@@ -30,6 +33,7 @@ public class SampleWebMvcConfig implements WebMvcConfigurer /* extends WebMvcCon
 	@Override
 	public void addViewControllers(ViewControllerRegistry registry) {
 		registry.addViewController("/").setViewName("index");
+		registry.addViewController("/error/403").setViewName("error/403");
 	}
 
 }

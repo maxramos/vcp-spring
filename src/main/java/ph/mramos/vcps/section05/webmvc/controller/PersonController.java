@@ -1,6 +1,7 @@
 package ph.mramos.vcps.section05.webmvc.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.server.ResponseStatusException;
 
 import ph.mramos.vcps.section03.entity.Person;
 import ph.mramos.vcps.section04.springdatajpa.service.PersonService;
@@ -34,9 +36,13 @@ public class PersonController {
 
 	@GetMapping("/find")
 	public String find(@RequestParam String firstName, Model model) { // @RequestParam can be query params or form params.
-		Person person = personService.findByFirstName(firstName);
-		model.addAttribute("person", person);
-		return "person";
+		try {
+			Person person = personService.findByFirstName(firstName);
+			model.addAttribute("person", person);
+			return "person";
+		} catch (Exception e) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Person First Name Not Found.", e);
+		}
 	}
 
 	@PreAuthorize("hasRole('admin') and #userDetails.username == authentication.name")

@@ -61,6 +61,9 @@ public class MultiWebSecurityConfig {
 				.authorizeRequests()
 					.antMatchers("/person/**").hasRole("admin")
 					.and()
+				.exceptionHandling()
+					.accessDeniedPage("/error/403") // Must match the value in SampleWebMvcConfig#addViewControllers()
+					.and()
 				.formLogin();
 		}
 	}

@@ -22,7 +22,7 @@ public class PersonService {
 //		Person person = personRepository.getById(id); // causes "Hibernate could not initialize proxy – no Session" if fields are not all fetch before the transaction ends.
 //		System.out.println(person);
 		Optional<Person> result = personRepository.findById(id);
-		return result.get();
+		return result.orElseThrow(PersonIdNotFoundException::new);
 	}
 
 	public Person findByFirstName(String firstName) {

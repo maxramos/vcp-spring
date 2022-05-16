@@ -56,6 +56,11 @@
 			<artifactId>aspectjweaver</artifactId>
 			<version>1.9.9.1</version>
 		</dependency>
+		<dependency><!-- Required for restful web service to return models properly -->
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>2.13.3</version>
+		</dependency>
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>

@@ -11,7 +11,7 @@ public class SampleDataSourceConfig {
 
 	@Bean
 	public DataSource dataSource() {
-		return new DriverManagerDataSource("jdbc:mysql://localhost:3306/spring_cert", "admin", "giselles");
+		return new DriverManagerDataSource("jdbc:mysql://localhost:3306/spring_cert", "admin", "giselles"); // com.mysql.cj.jdbc.Driver or com.mysql.jdbc.Driver (deprecated)
 	}
 
 }

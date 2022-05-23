@@ -3,17 +3,15 @@ package ph.mramos.vcps.section04.springdatajpa;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Function;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
-import org.springframework.data.repository.query.FluentQuery;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import ph.mramos.vcps.section03.entity.Person;
@@ -44,7 +42,7 @@ public class SampleSpringDataJpaTest {
 
 	@Test
 	public void test_findAll_pageable() {
-		Page<Person> page = personRepository.findAll(Pageable.ofSize(3).withPage(1));
+		Page<Person> page = personRepository.findAll(PageRequest.of(1, 3));
 		List<Person> persons = page.getContent();
 		persons.forEach(System.out::println);
 
@@ -64,19 +62,6 @@ public class SampleSpringDataJpaTest {
 	public void test_findAllById() {
 		List<Person> persons = personRepository.findAllById(Arrays.asList(1, 2));
 		persons.forEach(System.out::println);
-	}
-
-	@Test
-	public void test_findBy() {
-		Person person = new Person();
-		person.setFirstName("MAX");
-		person.setLastName("RAMOS");
-		Example<Person> example = Example.of(person, ExampleMatcher.matchingAny().withIgnoreCase());
-		Function<FluentQuery.FetchableFluentQuery<Person>, List<Person>> function = query -> query.sortBy(Sort.by(Direction.DESC, "firstName")).all();
-
-		List<Person> persons = personRepository.findBy(example, function);
-		persons.forEach(System.out::println);
-
 	}
 
 	@Test

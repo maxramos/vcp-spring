@@ -1,6 +1,6 @@
 package ph.mramos.vcps.section03.jpa_transaction;
 
-import java.util.Date;
+import java.sql.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;

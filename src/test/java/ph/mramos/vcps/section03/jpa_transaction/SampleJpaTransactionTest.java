@@ -1,6 +1,7 @@
 package ph.mramos.vcps.section03.jpa_transaction;
 
-import java.sql.Date;
+import java.time.LocalDate;
+import java.time.ZoneOffset;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -31,8 +32,7 @@ public class SampleJpaTransactionTest {
 	@Transactional // Be careful to import org.springframework.transaction.annotation.Transactional and NOT javax.transaction.Transactional otherwise there will be errors.
 	@Rollback(false)
 	public void test_transaction() {
-		@SuppressWarnings("deprecation")
-		Person person = new Person("nikki1", "tan1", 35, new Date(1986, 11, 25), 62, 157.48);
+		Person person = new Person("nikki1", "tan1", 35, java.util.Date.from(LocalDate.of(1986, 12, 25).atStartOfDay().toInstant(ZoneOffset.UTC)), 62, 157.48);
 		em.persist(person);
 		em.flush();
 

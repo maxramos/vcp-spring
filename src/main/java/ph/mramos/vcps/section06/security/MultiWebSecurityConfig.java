@@ -10,7 +10,7 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
-//@Configuration // No need to add @Configuration since @EnableWebSecurity is annotated by @Configuration.
+//@Configuration // No need to add @Configuration if either @EnableWebSecurity or @EnableGlobalMethodSecurity is present since they are both meta annotated by @Configuration.
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class MultiWebSecurityConfig {

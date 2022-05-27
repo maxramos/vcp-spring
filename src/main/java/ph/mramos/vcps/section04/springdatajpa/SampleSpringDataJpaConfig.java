@@ -33,6 +33,7 @@ public class SampleSpringDataJpaConfig {
 
 		LocalContainerEntityManagerFactoryBean factoryBean = new LocalContainerEntityManagerFactoryBean();
 		factoryBean.setDataSource(dataSource());
+//		factoryBean.setPersistenceUnitName("default"); // Set a persistence unit name if there are mulitple entity manager factory.
 		factoryBean.setPackagesToScan("ph.mramos.vcps.section03.entity");
 		factoryBean.setJpaVendorAdapter(jpaVendorAdapter);
 		return factoryBean;

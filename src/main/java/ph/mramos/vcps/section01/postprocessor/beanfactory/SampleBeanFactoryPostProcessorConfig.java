@@ -10,7 +10,7 @@ import ph.mramos.vcps.section01.postprocessor.SampleBeanToBeProcessed;
 public class SampleBeanFactoryPostProcessorConfig {
 
 	@Bean
-	public static SampleBeanFactoryPostProcessor sampleBeanFactoryPostProcessor() {
+	public static SampleBeanFactoryPostProcessor sampleBeanFactoryPostProcessor() { // Use static method for BeanFactoryPostProcessor to initialize it earlier than other @Bean methods whose instances must be processed by this post processor.
 		return new SampleBeanFactoryPostProcessor();
 	}
 

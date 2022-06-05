@@ -19,7 +19,7 @@ public class SampleELComponent1 {
 	@Value("#{true}")
 	private boolean booleanVal;
 
-	// arrays, list, maps, properties
+	// arrays, list, maps
 	@Value("#{arrayVal[0]}")
 	private String arrayVal; // If specified in page then it's like this: #arrayVal[0]
 
@@ -32,14 +32,15 @@ public class SampleELComponent1 {
 	@Value("#{mapIntVal[1]}")
 	private String mapIntVal; // If specified in page then it's like this: #mapIntVal[1]
 
+	// properties
 	@Value("#{systemProperties['os.name']}") // JVM Properties
 	private String osName; // If specified in page then it's like this: @systemProperties['os.name']
 
 	@Value("#{systemEnvironment['JAVA_HOME']}")
 	private String javaHome; // If specified in page then it's like this: @systemEnvironment['JAVA_HOME']
 
-	@Value("#{environment['defaultProfiles']}") // Spring environment
-	private String defaultProfile; // If specified in page then it's like this: @systemEnvironment['path']
+	@Value("#{environment['sample.key']}") // Spring environment
+	private String sampleKey; // If specified in page then it's like this: @environment['sample.key']
 
 	// Method invocation
 	@Value("#{sampleELComponent2.getString()}") // Bean names can be prefixed with @
@@ -75,20 +76,25 @@ public class SampleELComponent1 {
 		System.out.println("String literal: " + str);
 		System.out.println("int literal: " + intVal);
 		System.out.println("boolean literal: " + booleanVal);
+		System.out.println();
 		System.out.println("Array: " + arrayVal);
 		System.out.println("List: " + listVal);
 		System.out.println("Map String: " + mapStrVal);
 		System.out.println("Map Integer: " + mapIntVal);
-		System.out.println("System Properties = OS Name: " + osName);
-		System.out.println("System Environment = Java Home: " + javaHome);
-		System.out.println("Spring Environment = default profiles: " + defaultProfile);
+		System.out.println();
+		System.out.println("System Properties = os.name: " + osName);
+		System.out.println("System Environment = JAVA_HOME: " + javaHome);
+		System.out.println("Spring Environment = sample.key: " + sampleKey);
+		System.out.println();
 		System.out.println("Method Invocation: " + methodInvocation);
 		System.out.println("Method Invocation Static: " + methodInvocationStatic);
 		System.out.println("Field Invocation Static: " + fieldInvocationStatic);
+		System.out.println();
 		System.out.println("Ternary: " + ternary);
 		System.out.println("Elvis: " + elvis.getString());
 		System.out.println("Safe Navigation: " + safeNavigation);
 		System.out.println("Regex matches: " + regexMatches);
+		System.out.println();
 		System.out.println("Map Selection: " + mapStrValSelection);
 		System.out.println("Map Projection: " + mapStrValProjection);
 	}

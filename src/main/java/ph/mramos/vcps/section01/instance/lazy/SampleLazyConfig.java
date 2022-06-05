@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Lazy;
 @ComponentScan
 public class SampleLazyConfig {
 
-	@Lazy
+	@Lazy // Can be applied to @Autowired field, in that case the field is not yet injected with an actual instance until it's actually used.
 	@Bean
 	public SampleLazyBean sampleLazyBean() {
 		return new SampleLazyBean();

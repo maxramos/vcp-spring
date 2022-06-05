@@ -27,42 +27,52 @@ public class SampleInjectionComponent {
 	}
 
 	/**
-	 * Default behavior when there are multiple instances is to base the bean name from the parameter name.
-	 * When there are multiple constructors but not one is annotated then call the default constructor.
+	 * Default behavior when there are multiple instances of the target bean is to base the bean name from the parameter name.
+	 * When there are multiple constructors but not one is annotated with @Autowired then call the default constructor.
+	 * Non required dependencies must be marked as @Nullable or wrapped in Optional.
+	 * Only the required dependencies have bearing when evaluating an annotated constructor regardless if @Autowired(required = true) or @Autowired(required = false).
 	 *
+	 * If @Autowired(required = true),
+	 * 			then all required dependencies must be satisfied or throw an error (e.g. NoUniqueBeanDefinitionException).
 	 * If @Autowired(required = false) and there's no default constructor,
-	 * 			then all required dependencies must be satisfied or throw an error.
-	 * 			Non required dependencies must be marked as @Nullable or wrapped in Optional.
-	 * If @Autowired(required = false) and all params are required and there's a default constructor,
-	 * 			then execute that default constructor instead if there are unsatisfied dependencies.
-	 * If @Autowired(required = false) and there are optional params,
-	 * 			then execute it even if there's a default constructor.
+	 * 			then all required dependencies must be satisfied or throw an error (e.g. NoUniqueBeanDefinitionException).
+	 * If @Autowired(required = false) and there's a default constructor,
+	 * 			then execute that default constructor only if there are unsatisfied required dependencies.
 	 */
 	@Autowired(required = false)
 	private SampleInjectionComponent(SampleAutowiredBean2 sampleAutowiredBean2Instance1, @Nullable WebApplicationContext webAppContext) { // 1st to execute.
+		this.sampleBean2 = sampleAutowiredBean2Instance1;
 		System.out.println("SampleInjectionComponent#constructor");
 		System.out.println("sampleBean0 is null: " + (sampleBean0 == null));
+		System.out.println("sampleBean2 is null: " + (sampleBean2 == null));
 		System.out.println("sampleBean3 is null: " + (sampleBean3 == null));
 		System.out.println("webAppContext is null: " + (webAppContext == null));
-		this.sampleBean2 = sampleAutowiredBean2Instance1;
 	}
 
 	/**
-	 * Default behavior when there are multiple instances is to base the bean name from the parameter name.
+	 * Default behavior when there are multiple instances of the target bean is to base the bean name from the parameter name.
+	 * Non required dependencies can be marked as @Nullable or wrapped in Optional but it's no use since any unsatisfied optional dependencies will cause the method to be NOT executed.
 	 *
-	 * If @Autowired(required = false) then it's all or nothing regardless of dependencies being marked as @Nullable or wrapped in Optional,
-	 * 			all dependencies must be satisfied or nothing will be injected but it will not throw an error even if some dependencies are not satisfied.
-	 * If @Autowired(required = false) and non required params are wrapped in Optional then it will still be executed even if some dependencies are not satisfied.
+	 * If @Autowired(required = true),
+	 * 			then all required dependencies must be satisfied or throw an error (e.g. NoUniqueBeanDefinitionException).
+	 * If @Autowired(required = false) and NON required parameter is annotated by @Nullable,
+	 * 			then all dependencies (even NON required ones) must be satisfied or else the method will NOT be executed (no error will be thrown).
+	 *  * If @Autowired(required = false) and NON required parameter is enclosed by Optional,
+	 * 			then all required dependencies must be satisfied or else the method will NOT be executed (no error will be thrown).
 	 */
-	@Autowired
+	@Autowired(required = false)
 	private void setSampleBean3(SampleAutowiredBean3 sampleAutowiredBean3Instance1, @Nullable WebApplicationContext webAppContext) { // 3rd to execute.
+		this.sampleBean3 = sampleAutowiredBean3Instance1;
+		System.out.println();
 		System.out.println("SampleInjectionComponent#setter");
 		System.out.println("sampleBean0 is null: " + (sampleBean0 == null));
+		System.out.println("sampleBean2 is null: " + (sampleBean2 == null));
+		System.out.println("sampleBean3 is null: " + (sampleBean3 == null));
 		System.out.println("webAppContext is null: " + (webAppContext == null));
-		this.sampleBean3 = sampleAutowiredBean3Instance1;
 	}
 
 	public void run() {
+		System.out.println();
 		System.out.println("SampleInjectionComponent#run");
 
 		if (sampleBean0 != null) {

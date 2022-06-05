@@ -9,7 +9,7 @@ public class SampleAutowiredBean3 {
 	}
 
 	public void run() {
-		System.out.println("SampleAutowiredBean3#run: instance" + instance);
+		System.out.println("Result: sampleAutowiredBean3Instance" + instance);
 	}
 
 	@Override

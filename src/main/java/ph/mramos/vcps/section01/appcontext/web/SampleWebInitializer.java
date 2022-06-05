@@ -2,7 +2,7 @@ package ph.mramos.vcps.section01.appcontext.web;
 
 import ph.mramos.vcps.section01.appcontext.nonweb.SampleNonWebConfig;
 
-public class SampleWebInitializer /* extends AbstractAnnotationConfigDispatcherServletInitializer */ {
+public class SampleWebInitializer /* extends AbstractAnnotationConfigDispatcherServletInitializer */ { // Commented out because it's conflicting with another config but normally this is how to declare an initializer.
 
 //	@Override
 	protected Class<?>[] getRootConfigClasses() {

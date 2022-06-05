@@ -7,7 +7,7 @@ import org.springframework.context.annotation.PropertySource;
 
 @Configuration
 @ComponentScan
-@PropertySource({
+@PropertySource({ // Must always accompanied by @Configuration. Only have 'value' attribute for setting locations. Unlike @TestPropertySource that does have 'locations' attribute.
 	"classpath:/config/application.properties", // Doesn't matter if it starts with '/' or not, it always relative to root classpath.
 	"file:config/web.properties" // If it starts with '/' then it's an absolute path; if not then it's relative to the folder where the jar is being executed.
 })

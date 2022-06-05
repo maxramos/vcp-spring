@@ -5,7 +5,7 @@ import javax.annotation.PostConstruct;
 public class ParentSampleLifeCycleBean {
 
 	@PostConstruct
-	private void postConstruct() {
+	private void postConstruct() { // Get executed first prior to its child's @PostConstruct.
 		System.out.println("ParentSampleLifeCycleBean#postConstruct");
 	}
 

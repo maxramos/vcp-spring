@@ -15,7 +15,9 @@ public class LazyInstanceTest {
 	public void test_lazy_instance() {
 		System.out.println("Should be executed first."); // Should be executed first.
 		appContext.getBean(SampleLazyBean.class);
-		appContext.getBean(SampleLazyComponent.class);
+		System.out.println();
+		SampleLazyComponent1 sampleLazyComponent1 = appContext.getBean(SampleLazyComponent1.class);
+		sampleLazyComponent1.run();
 	}
 
 }

@@ -16,7 +16,7 @@ public class SampleAutowiredBean2 implements Ordered { // @Order takes precedenc
 	}
 
 	public void run() {
-		System.out.println("SampleAutowiredBean2#run: instance" + instance);
+		System.out.println("Result: sampleAutowiredBean2Instance" + instance);
 	}
 
 	@Override

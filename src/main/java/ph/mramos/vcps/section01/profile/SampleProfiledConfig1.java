@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Profile;
 @ComponentScan
 public class SampleProfiledConfig1 {
 
-	@Bean // // Must have both profile: test1 to be executed.
+	@Bean // // Must have profile: test1 to be executed.
 	public SampleProfiledBeanInterface sampleProfiledBean1() {
 		return new SampleProfiledBean1();
 	}

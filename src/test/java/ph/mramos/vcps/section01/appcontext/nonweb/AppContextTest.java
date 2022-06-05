@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
-@SpringJUnitConfig(classes = { SampleNonWebConfig.class, SampleNonWebObj.class })
+@SpringJUnitConfig(classes = { SampleNonWebConfig.class, SampleNonWebObj.class }) // SampleNonWebObj must be declared since it was not declared in the config class.
 public class AppContextTest {
 
 	@Autowired

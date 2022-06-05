@@ -6,15 +6,15 @@ import org.springframework.stereotype.Component;
 
 @Lazy
 @Component
-public class SampleLazyComponent implements InitializingBean {
+public class SampleLazyComponent2 implements InitializingBean {
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
-		System.out.println("SampleLazyComponent#afterPropertiesSet");
+		System.out.println("SampleLazyComponent2#afterPropertiesSet");
 	}
 
 	public void run() {
-		System.out.println("SampleLazyComponent#run");
+		System.out.println("SampleLazyComponent2#run");
 	}
 
 }

@@ -9,12 +9,12 @@ import org.springframework.beans.factory.InitializingBean;
 public class SampleLifeCycleBean implements InitializingBean, DisposableBean {
 
 	@PostConstruct
-	public void postConstruct() {
+	private void postConstruct() { // Can have any visibility
 		System.out.println("SampleLifeCycleBean#postConstruct");
 	}
 
 	@PreDestroy
-	public void preDestroy() {
+	private void preDestroy() { // Can have any visibility
 		System.out.println("SampleLifeCycleBean#preDestroy");
 	}
 
@@ -28,12 +28,12 @@ public class SampleLifeCycleBean implements InitializingBean, DisposableBean {
 		System.out.println("SampleLifeCycleBean#destroy");
 	}
 
-	public void init() {
-		System.out.println("SampleLifeCycleBean#init");
+	public void initMethod() {
+		System.out.println("SampleLifeCycleBean#initMethod");
 	}
 
-	public void close() {
-		System.out.println("SampleLifeCycleBean#close");
+	public void destroyMethod() {
+		System.out.println("SampleLifeCycleBean#destroyMethod");
 	}
 
 	public void run() {

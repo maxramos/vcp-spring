@@ -16,6 +16,7 @@ public class BeanFactoryPostProcessorTest {
 	@Test
 	public void test_bean_factory_post_processor() {
 		System.out.println(appContext.getBeanDefinitionCount());
+		appContext.getBean(SampleBeanToBeProcessed.class); // If beanDefinition.setLazyInit(true) then SampleBeanToBeProcessed will only be instantiated at this point.
 	}
 
 }

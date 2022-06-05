@@ -8,7 +8,7 @@ public class ManualAppContextTest {
 	@Test
 	public void test_create_app_context_instance_through_configuration_classes() {
 		@SuppressWarnings("resource")
-		AnnotationConfigApplicationContext appContext = new AnnotationConfigApplicationContext(SampleNonWebConfig.class, SampleNonWebObj.class);
+		AnnotationConfigApplicationContext appContext = new AnnotationConfigApplicationContext(SampleNonWebConfig.class, SampleNonWebObj.class); // SampleNonWebObj must be declared since it was not declared in the config class.
 
 		SampleNonWebBean bean1 = appContext.getBean(SampleNonWebBean.class);
 		bean1.run();
@@ -30,7 +30,7 @@ public class ManualAppContextTest {
 	@Test
 	public void test_create_app_context_instance_through_base_packages() {
 		@SuppressWarnings("resource")
-		AnnotationConfigApplicationContext appContext = new AnnotationConfigApplicationContext("ph.mramos.vcps.section01.appcontext.nonweb"); // Includes sub packages.
+		AnnotationConfigApplicationContext appContext = new AnnotationConfigApplicationContext("ph.mramos.vcps.section01.appcontext.nonweb"); // Includes sub packages. Only scans classes with stereotypes annotations (e.g. @Component, etc.) or those declared in config classes.
 
 		SampleNonWebBean bean1 = appContext.getBean(SampleNonWebBean.class);
 		bean1.run();

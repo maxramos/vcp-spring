@@ -3,10 +3,14 @@ package ph.mramos.vcps.section01.qualifier;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 @SpringJUnitConfig(classes = SampleQualifiedConfig.class)
 public class QualifierTest {
+
+	@Autowired
+	private ApplicationContext appContext;
 
 	@Qualifier("sampleBean")
 	@Autowired
@@ -99,6 +103,8 @@ public class QualifierTest {
 
 		System.out.println();
 
+		SampleQualifiedBean3 sampleQualifiedBean3Instance2 = appContext.getBean("sampleQualifiedBean3Instance2", SampleQualifiedBean3.class);
+		System.out.println("SampleQualifiedBean3 == sampleQualifiedBean3Instance2: " + (sampleQualifiedBean3 == sampleQualifiedBean3Instance2));
 		sampleQualifiedBean3.run();
 	}
 

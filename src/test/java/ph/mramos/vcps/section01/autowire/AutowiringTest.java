@@ -31,16 +31,19 @@ public class AutowiringTest {
 
 	@Test
 	public void test_autowiring() {
+		System.out.println();
 		sampleAutowiredComponent.run();
 	}
 
 	@Test
 	public void test_bean_array() {
+		System.out.println();
 		Stream.of(sampleAutowiredBean1Array).forEach(System.out::println);
 	}
 
 	@Test
 	public void test_bean_list() {
+		System.out.println();
 		sampleAutowiredBean1List.forEach(System.out::println);
 		sampleAutowiredBean2List.forEach(System.out::println);
 		sampleAutowiredBean3List.forEach(System.out::println);
@@ -48,6 +51,7 @@ public class AutowiringTest {
 
 	@Test
 	public void test_bean_map() {
+		System.out.println();
 		sampleAutowiredBean1Map.forEach((key, value) -> System.out.println(key + " : " + value));
 	}
 

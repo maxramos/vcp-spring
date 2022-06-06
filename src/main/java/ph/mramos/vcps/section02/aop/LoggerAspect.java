@@ -13,45 +13,65 @@ import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.stereotype.Component;
 
+/**
+ * Order of execution:
+ * 1. @Around before proceed
+ * 2. @Before
+ * 3. @AfterReturning or @AfterThrowing
+ * 5. @After
+ * 6. @Around after proceed
+ */
 @Aspect
 @Component
 public class LoggerAspect {
 
-	@Pointcut("!within(ph.mramos.vcps.section02.aop2.*) && !within(ph.mramos.vcps.section02.aop3.*) && execution(* ph.mramos.vcps.section02..AOP*.run1(..))")
-	private void run1() {}
+	@Pointcut("execution(* ph.mramos.vcps.section02..*Implementation0.runBefore(String))")
+	private void pc_before() {}
 
-	@Pointcut("!within(ph.mramos.vcps.section02.aop2.*) && !within(ph.mramos.vcps.section02.aop3.*) && execution(* ph.mramos.vcps.section02..AOP*.run2(..))")
-	private void run2() {}
+	@Pointcut("execution(* ph.mramos.vcps.section02..*Implementation0.runAfterReturning(String))")
+	private void pc_afterReturning() {}
 
-	@Pointcut("!within(ph.mramos.vcps.section02.aop2.*) && !within(ph.mramos.vcps.section02.aop3.*) && execution(* ph.mramos.vcps.section02..AOP*.run3(..))")
-	private void run3() {}
+	@Pointcut("execution(* ph.mramos.vcps.section02..*Implementation0.runAfterThrowing(String))")
+	private void pc_afterThrowing() {}
 
-	@Pointcut("!within(ph.mramos.vcps.section02.aop2.*) && !within(ph.mramos.vcps.section02.aop3.*) && execution(* ph.mramos.vcps.section02..AOP*.run4(..))")
-	private void run4() {}
+	@Pointcut("execution(* ph.mramos.vcps.section02..*Implementation0.runAfter(String))")
+	private void pc_after() {}
 
-	@Pointcut("!within(ph.mramos.vcps.section02.aop2.*) && !within(ph.mramos.vcps.section02.aop3.*) && execution(* ph.mramos.vcps.section02..AOP*.run5(..))")
-	private void run5() {}
+	@Pointcut("execution(* ph.mramos.vcps.section02..*Implementation0.runAround(String))")
+	private void pc_around() {}
 
-	@Pointcut("!within(ph.mramos.vcps.section02.aop2.*) && !within(ph.mramos.vcps.section02.aop3.*) && execution(public * ph.mramos.vcps.section02..AOP*.run*(..) throws IllegalStateException)")
-	private void run6() {}
+	@Pointcut("execution(public * ph.mram*.vcps..aop.*Implementation0.runExecut*(..) throws IllegalStateException)")
+	private void pc_execution() {}
 
-	@Pointcut("within(ph.mramos.vcps.section02.aop2.*)")
-	private void run1_2() {}
+	@Pointcut("within(ph.mramos.vcps.section02.aop.*Implementation1)")
+	private void pc_within() {}
 
-	@Pointcut("this(ph.mramos.vcps.section02.aop.AOPInterface) && within(ph.mramos.vcps.section02.aop2.*)") // Add the within PCD to prevent unnecessary advice.
-	private void run2_2() {}
+	@Pointcut("this(ph.mramos.vcps.section02.aop2.AOPInterface2) && within(ph.mramos.vcps.section02.aop2.*)") // Add the within PCD to prevent unnecessary advice.
+	private void pc_this() {}
 
-	@Pointcut("target(ph.mramos.vcps.section02.aop3.AOPImplementation3) && within(ph.mramos.vcps.section02.aop3.*)") // Add the within PCD to prevent unnecessary advice.
-	private void run4_3() {}
+	@Pointcut("target(ph.mramos.vcps.section02.aop2.AOPNoInterface1) && within(ph.mramos.vcps.section02.aop2.*)") // Add the within PCD to prevent unnecessary advice.
+	private void pc_target() {}
 
-	@Pointcut("args(String, String)")
-	private void run5_3() {}
+	@Pointcut("args(String, double)")
+	private void pc_args() {}
 
-	@Pointcut("bean(imp2) && within(ph.mramos.vcps.section02.aop2.*)") // Add the within PCD to prevent unnecessary advice.
-	private void run4_2() {}
+	@Pointcut("bean(imp3) && within(ph.mramos.vcps.section02.aop3.*)") // Add the within PCD to prevent unnecessary advice.
+	private void pc_bean() {} // The bean pointcut designator only exists in Spring, not present in AspectJ.
 
-	@Before("run1()")
-	public void beforeLogger(JoinPoint jp) {
+	@Pointcut("@within(org.springframework.stereotype.Service)")
+	private void pc_anno_within() {}
+
+	@Pointcut("@target(org.springframework.stereotype.Repository) && within(ph.mramos.vcps.section02.aop4.*)") // Add the within PCD to prevent unnecessary advice.
+	private void pc_anno_target() {}
+
+	@Pointcut("@args(javax.persistence.Entity)")
+	private void pc_anno_args() {}
+
+	@Pointcut("@annotation(Deprecated)")
+	private void pc_anno_annotation() {}
+
+	@Before("pc_before()")
+	public void ad_before(JoinPoint jp) {
 		System.out.println("********** Before **********");
 		System.out.println("Signature: " + jp.getSignature());
 		System.out.println("Args: " + Arrays.toString(jp.getArgs()));
@@ -62,94 +82,40 @@ public class LoggerAspect {
 		System.out.println();
 	}
 
-	@Before("run1_2()")
-	public void beforeLogger2(JoinPoint jp) {
-		System.out.println("********** Before 2 **********");
-		System.out.println("Signature: " + jp.getSignature());
-		System.out.println("Args: " + Arrays.toString(jp.getArgs()));
-		System.out.println("Kind: " + jp.getKind());
-		System.out.println("Source Location: " + jp.getSourceLocation());
-		System.out.println("This: " + jp.getThis());
-		System.out.println("Target: " + jp.getTarget());
-		System.out.println();
-	}
-
-	@Before("run2_2()")
-	public void beforeLogger3(JoinPoint jp) {
-		System.out.println("********** Before 3 **********");
-		System.out.println("Signature: " + jp.getSignature());
-		System.out.println("Args: " + Arrays.toString(jp.getArgs()));
-		System.out.println("Kind: " + jp.getKind());
-		System.out.println("Source Location: " + jp.getSourceLocation());
-		System.out.println("This: " + jp.getThis());
-		System.out.println("Target: " + jp.getTarget());
-		System.out.println();
-	}
-
-	@Before("run4_3()")
-	public void beforeLogger4(JoinPoint jp) {
-		System.out.println("********** Before 4 **********");
-		System.out.println("Signature: " + jp.getSignature());
-		System.out.println("Args: " + Arrays.toString(jp.getArgs()));
-		System.out.println("Kind: " + jp.getKind());
-		System.out.println("Source Location: " + jp.getSourceLocation());
-		System.out.println("This: " + jp.getThis());
-		System.out.println("Target: " + jp.getTarget());
-		System.out.println();
-	}
-
-	@Before("run5_3()")
-	public void beforeLogger5(JoinPoint jp) {
-		System.out.println("********** Before 5 **********");
-		System.out.println("Signature: " + jp.getSignature());
-		System.out.println("Args: " + Arrays.toString(jp.getArgs()));
-		System.out.println("Kind: " + jp.getKind());
-		System.out.println("Source Location: " + jp.getSourceLocation());
-		System.out.println("This: " + jp.getThis());
-		System.out.println("Target: " + jp.getTarget());
-		System.out.println();
-	}
-
-	@Before("run4_2()")
-	public void beforeLogger6(JoinPoint jp) {
-		System.out.println("********** Before 6 **********");
-		System.out.println("Signature: " + jp.getSignature());
-		System.out.println("Args: " + Arrays.toString(jp.getArgs()));
-		System.out.println("Kind: " + jp.getKind());
-		System.out.println("Source Location: " + jp.getSourceLocation());
-		System.out.println("This: " + jp.getThis());
-		System.out.println("Target: " + jp.getTarget());
-		System.out.println();
-	}
-
-	@AfterReturning(pointcut = "run2()", returning = "returnValue")
-	public void afterReturningLogger(JoinPoint jp, String returnValue) {
+	@AfterReturning(pointcut = "pc_afterReturning()", returning = "returnValue")
+	public void ad_afterReturning(JoinPoint jp, String returnValue) {
 		System.out.println("********** After Returning **********");
 		System.out.println("Signature: " + jp.getSignature());
 		System.out.println("Args: " + Arrays.toString(jp.getArgs()));
-		System.out.println("Return Value: " + returnValue);
 		System.out.println("Kind: " + jp.getKind());
 		System.out.println("Source Location: " + jp.getSourceLocation());
 		System.out.println("This: " + jp.getThis());
 		System.out.println("Target: " + jp.getTarget());
 		System.out.println();
+
+		System.out.println("Return Value: " + returnValue);
+		System.out.println();
 	}
 
-	@AfterThrowing(pointcut = "run3()", throwing = "throwable")
-	public void afterThrowingLogger(JoinPoint jp, Throwable throwable) {
+//
+	@AfterThrowing(pointcut = "pc_afterThrowing()", throwing = "throwable")
+	public void ad_afterThrowing(JoinPoint jp, Throwable throwable) {
 		System.out.println("********** After Throwing **********");
 		System.out.println("Signature: " + jp.getSignature());
 		System.out.println("Args: " + Arrays.toString(jp.getArgs()));
-		System.out.println("Throwable Class: " + throwable.getClass());
 		System.out.println("Kind: " + jp.getKind());
 		System.out.println("Source Location: " + jp.getSourceLocation());
 		System.out.println("This: " + jp.getThis());
 		System.out.println("Target: " + jp.getTarget());
 		System.out.println();
+
+		System.out.println("Throwable Class: " + throwable.getClass());
+		System.out.println();
 	}
 
-	@After("run4()")
-	public void afterLogger(JoinPoint jp) {
+//
+	@After("pc_after()")
+	public void ad_after(JoinPoint jp) {
 		System.out.println("********** After **********");
 		System.out.println("Signature: " + jp.getSignature());
 		System.out.println("Args: " + Arrays.toString(jp.getArgs()));
@@ -160,34 +126,151 @@ public class LoggerAspect {
 		System.out.println();
 	}
 
-	@Around("run5()")
-	public void aroundLogger(ProceedingJoinPoint pjp) throws Throwable {
-		System.out.println("********** Around **********");
-		Object returnValue = pjp.proceed();
+//
+	@Around("pc_around()")
+	public void ad_around(ProceedingJoinPoint pjp) throws Throwable {
+		System.out.println("********** Around (Before Proceed - Return) **********");
 		System.out.println("Signature: " + pjp.getSignature());
 		System.out.println("Args: " + Arrays.toString(pjp.getArgs()));
-		System.out.println("Return Value: " + returnValue);
 		System.out.println("Kind: " + pjp.getKind());
 		System.out.println("Source Location: " + pjp.getSourceLocation());
 		System.out.println("This: " + pjp.getThis());
 		System.out.println("Target: " + pjp.getTarget());
 		System.out.println();
+
+		Object returnValue = pjp.proceed();
+
+		System.out.println("           Around (After Proceed - Return)           ");
+		System.out.println("Return Value: " + returnValue);
+		System.out.println();
 	}
 
-	@Around("run6()")
-	public void executionLogger(ProceedingJoinPoint pjp) {
+	@Around("pc_execution()")
+	public void ad_execution(ProceedingJoinPoint pjp) {
+		System.out.println("********** Execution (Around - Before Proceed - Throw) **********");
+		System.out.println("Signature: " + pjp.getSignature());
+		System.out.println("Args: " + Arrays.toString(pjp.getArgs()));
+		System.out.println("Kind: " + pjp.getKind());
+		System.out.println("Source Location: " + pjp.getSourceLocation());
+		System.out.println("This: " + pjp.getThis());
+		System.out.println("Target: " + pjp.getTarget());
+		System.out.println();
+
 		try {
 			Object returnValue = pjp.proceed();
 			System.out.println("Return Value: " + returnValue); // Not executed.
 		} catch (Throwable e) {
-			System.out.println("Signature: " + pjp.getSignature());
-			System.out.println("Args: " + Arrays.toString(pjp.getArgs()));
+			System.out.println("           Execution (Around - After Proceed - Throw)           ");
 			System.out.println("Throwable Class: " + e.getClass());
-			System.out.println("Kind: " + pjp.getKind());
-			System.out.println("Source Location: " + pjp.getSourceLocation());
-			System.out.println("This: " + pjp.getThis());
-			System.out.println("Target: " + pjp.getTarget());
 		}
+	}
+
+	@Before("pc_within()")
+	public void ad_within(JoinPoint jp) {
+		System.out.println("********** Within (Before) **********");
+		System.out.println("Signature: " + jp.getSignature());
+		System.out.println("Args: " + Arrays.toString(jp.getArgs()));
+		System.out.println("Kind: " + jp.getKind());
+		System.out.println("Source Location: " + jp.getSourceLocation());
+		System.out.println("This: " + jp.getThis());
+		System.out.println("Target: " + jp.getTarget());
+		System.out.println();
+	}
+
+	@Before("pc_this()")
+	public void ad_this(JoinPoint jp) {
+		System.out.println("********** This (Before) **********");
+		System.out.println("Signature: " + jp.getSignature());
+		System.out.println("Args: " + Arrays.toString(jp.getArgs()));
+		System.out.println("Kind: " + jp.getKind());
+		System.out.println("Source Location: " + jp.getSourceLocation());
+		System.out.println("This: " + jp.getThis());
+		System.out.println("Target: " + jp.getTarget());
+		System.out.println();
+	}
+
+	@Before("pc_target()")
+	public void ad_target(JoinPoint jp) {
+		System.out.println("********** Target (Before) **********");
+		System.out.println("Signature: " + jp.getSignature());
+		System.out.println("Args: " + Arrays.toString(jp.getArgs()));
+		System.out.println("Kind: " + jp.getKind());
+		System.out.println("Source Location: " + jp.getSourceLocation());
+		System.out.println("This: " + jp.getThis());
+		System.out.println("Target: " + jp.getTarget());
+		System.out.println();
+	}
+
+	@Before("pc_args()")
+	public void ad_args(JoinPoint jp) {
+		System.out.println("********** Args (Before) **********");
+		System.out.println("Signature: " + jp.getSignature());
+		System.out.println("Args: " + Arrays.toString(jp.getArgs()));
+		System.out.println("Kind: " + jp.getKind());
+		System.out.println("Source Location: " + jp.getSourceLocation());
+		System.out.println("This: " + jp.getThis());
+		System.out.println("Target: " + jp.getTarget());
+		System.out.println();
+	}
+
+	@Before("pc_bean()")
+	public void ad_bean(JoinPoint jp) {
+		System.out.println("********** Bean (Before) **********");
+		System.out.println("Signature: " + jp.getSignature());
+		System.out.println("Args: " + Arrays.toString(jp.getArgs()));
+		System.out.println("Kind: " + jp.getKind());
+		System.out.println("Source Location: " + jp.getSourceLocation());
+		System.out.println("This: " + jp.getThis());
+		System.out.println("Target: " + jp.getTarget());
+		System.out.println();
+	}
+
+	@Before("pc_anno_within()")
+	public void ad_anno_within(JoinPoint jp) {
+		System.out.println("********** @Withtin (Before) **********");
+		System.out.println("Signature: " + jp.getSignature());
+		System.out.println("Args: " + Arrays.toString(jp.getArgs()));
+		System.out.println("Kind: " + jp.getKind());
+		System.out.println("Source Location: " + jp.getSourceLocation());
+		System.out.println("This: " + jp.getThis());
+		System.out.println("Target: " + jp.getTarget());
+		System.out.println();
+	}
+
+	@Before("pc_anno_target()")
+	public void ad_anno_target(JoinPoint jp) {
+		System.out.println("********** @Target (Before) **********");
+		System.out.println("Signature: " + jp.getSignature());
+		System.out.println("Args: " + Arrays.toString(jp.getArgs()));
+		System.out.println("Kind: " + jp.getKind());
+		System.out.println("Source Location: " + jp.getSourceLocation());
+		System.out.println("This: " + jp.getThis());
+		System.out.println("Target: " + jp.getTarget());
+		System.out.println();
+	}
+
+	@Before("pc_anno_args()")
+	public void ad_anno_args(JoinPoint jp) {
+		System.out.println("********** @Args (Before) **********");
+		System.out.println("Signature: " + jp.getSignature());
+		System.out.println("Args: " + Arrays.toString(jp.getArgs()));
+		System.out.println("Kind: " + jp.getKind());
+		System.out.println("Source Location: " + jp.getSourceLocation());
+		System.out.println("This: " + jp.getThis());
+		System.out.println("Target: " + jp.getTarget());
+		System.out.println();
+	}
+
+	@Before("pc_anno_annotation()")
+	public void ad_anno_annotation(JoinPoint jp) {
+		System.out.println("********** @Annotation (Before) **********");
+		System.out.println("Signature: " + jp.getSignature());
+		System.out.println("Args: " + Arrays.toString(jp.getArgs()));
+		System.out.println("Kind: " + jp.getKind());
+		System.out.println("Source Location: " + jp.getSourceLocation());
+		System.out.println("This: " + jp.getThis());
+		System.out.println("Target: " + jp.getTarget());
+		System.out.println();
 	}
 
 }

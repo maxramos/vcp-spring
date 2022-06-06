@@ -64,10 +64,10 @@ public class LoggerAspect {
 	@Pointcut("@target(org.springframework.stereotype.Repository) && within(ph.mramos.vcps.section02.aop4.*)") // Add the within PCD to prevent unnecessary advice.
 	private void pc_anno_target() {}
 
-	@Pointcut("@args(javax.persistence.Entity)")
+	@Pointcut("@args(javax.persistence.Entity)") // Applied on the class, not the parameter.
 	private void pc_anno_args() {}
 
-	@Pointcut("@annotation(Deprecated)")
+	@Pointcut("@annotation(Deprecated)") // Applied on the mthod.
 	private void pc_anno_annotation() {}
 
 	@Before("pc_before()")

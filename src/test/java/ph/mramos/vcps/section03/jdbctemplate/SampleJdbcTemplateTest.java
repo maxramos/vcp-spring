@@ -1,7 +1,5 @@
 package ph.mramos.vcps.section03.jdbctemplate;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -27,19 +25,30 @@ public class SampleJdbcTemplateTest {
 	 */
 	@Test
 	public void test_query_resultSetExtractor() {
-		List<String> firstNames = jdbcTemplate.query("SELECT * FROM person", new ResultSetExtractor<>() { // Can be a Function instead.
-			@Override
-			public List<String> extractData(ResultSet rs) throws SQLException {
-				List<String> firstNameList = new ArrayList<>();
-	
-				while (rs.next()) {
-					String firstName = rs.getString("first_name");
-					firstNameList.add(firstName);
-				}
-	
-				return firstNameList;
+		List<String> firstNames = jdbcTemplate.query("SELECT * FROM person", (ResultSetExtractor<List<String>>) rs -> {
+			List<String> firstNameList = new ArrayList<>();
+
+			while (rs.next()) {
+				String firstName = rs.getString("first_name");
+				firstNameList.add(firstName);
 			}
+
+			return firstNameList;
 		});
+
+//		List<String> firstNames = jdbcTemplate.query("SELECT * FROM person", new ResultSetExtractor<>() { // Can be a Function instead.
+//			@Override
+//			public List<String> extractData(ResultSet rs) throws SQLException {
+//				List<String> firstNameList = new ArrayList<>();
+//
+//				while (rs.next()) {
+//					String firstName = rs.getString("first_name");
+//					firstNameList.add(firstName);
+//				}
+//
+//				return firstNameList;
+//			}
+//		});
 
 		System.out.println(firstNames);
 	}
@@ -52,13 +61,18 @@ public class SampleJdbcTemplateTest {
 	public void test_query_rowCallbackHandler() {
 		List<String> firstNameList = new ArrayList<>();
 
-		jdbcTemplate.query("SELECT * FROM person", new RowCallbackHandler() { // Can be a Consumer instead.
-			@Override
-			public void processRow(ResultSet rs) throws SQLException {
-				String firstName = rs.getString("first_name");
-				firstNameList.add(firstName);
-			}
+		jdbcTemplate.query("SELECT * FROM person", (RowCallbackHandler) rs -> {
+			String firstName = rs.getString("first_name");
+			firstNameList.add(firstName);
 		});
+
+//		jdbcTemplate.query("SELECT * FROM person", new RowCallbackHandler() { // Can be a Consumer instead.
+//			@Override
+//			public void processRow(ResultSet rs) throws SQLException {
+//				String firstName = rs.getString("first_name");
+//				firstNameList.add(firstName);
+//			}
+//		});
 
 		System.out.println(firstNameList);
 	}
@@ -69,11 +83,14 @@ public class SampleJdbcTemplateTest {
 	 */
 	@Test
 	public void test_query_rowMapper() {
-		List<String> firstNameList = jdbcTemplate.query("SELECT * FROM person", new RowMapper<>() { // Can be a BiFunction instead.
-			public String mapRow(ResultSet rs, int rowNum) throws SQLException {
-				return rs.getString("first_name");
-			}
-		}); 
+		List<String> firstNameList = jdbcTemplate.query("SELECT * FROM person", (RowMapper<String>) (rs, rowNum) -> rs.getString("first_name"));
+
+//		List<String> firstNameList = jdbcTemplate.query("SELECT * FROM person", new RowMapper<>() { // Can be a BiFunction instead.
+//			@Override
+//			public String mapRow(ResultSet rs, int rowNum) throws SQLException {
+//				return rs.getString("first_name");
+//			}
+//		});
 
 		System.out.println(firstNameList);
 	}

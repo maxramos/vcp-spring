@@ -21,9 +21,10 @@ public class SampleDataSourceTest {
 
 	@Test
 	public void test_executeQuery() {
-		Connection conn = DataSourceUtils.getConnection(dataSource);
+		Connection conn = null;
 
 		try {
+			conn = DataSourceUtils.getConnection(dataSource);
 			PreparedStatement ps = conn.prepareStatement("SELECT * FROM person");
 			ResultSet rs = ps.executeQuery();
 
@@ -47,7 +48,9 @@ public class SampleDataSourceTest {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			DataSourceUtils.releaseConnection(conn, dataSource);
+			if (conn != null) {
+				DataSourceUtils.releaseConnection(conn, dataSource);
+			}
 		}
 	}
 

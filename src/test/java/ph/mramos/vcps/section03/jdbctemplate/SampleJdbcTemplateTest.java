@@ -7,9 +7,6 @@ import java.util.Map;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.ResultSetExtractor;
-import org.springframework.jdbc.core.RowCallbackHandler;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
@@ -25,7 +22,7 @@ public class SampleJdbcTemplateTest {
 	 */
 	@Test
 	public void test_query_resultSetExtractor() {
-		List<String> firstNames = jdbcTemplate.query("SELECT * FROM person", (ResultSetExtractor<List<String>>) rs -> {
+		List<String> firstNames = jdbcTemplate.query("SELECT * FROM person", rs -> {
 			List<String> firstNameList = new ArrayList<>();
 
 			while (rs.next()) {
@@ -61,7 +58,7 @@ public class SampleJdbcTemplateTest {
 	public void test_query_rowCallbackHandler() {
 		List<String> firstNameList = new ArrayList<>();
 
-		jdbcTemplate.query("SELECT * FROM person", (RowCallbackHandler) rs -> {
+		jdbcTemplate.query("SELECT * FROM person", rs -> {
 			String firstName = rs.getString("first_name");
 			firstNameList.add(firstName);
 		});
@@ -83,7 +80,7 @@ public class SampleJdbcTemplateTest {
 	 */
 	@Test
 	public void test_query_rowMapper() {
-		List<String> firstNameList = jdbcTemplate.query("SELECT * FROM person", (RowMapper<String>) (rs, rowNum) -> rs.getString("first_name"));
+		List<String> firstNameList = jdbcTemplate.query("SELECT * FROM person", (rs, rowNum) -> rs.getString("first_name"));
 
 //		List<String> firstNameList = jdbcTemplate.query("SELECT * FROM person", new RowMapper<>() { // Can be a BiFunction instead.
 //			@Override

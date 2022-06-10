@@ -7,6 +7,9 @@ import java.util.Map;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.ResultSetExtractor;
+import org.springframework.jdbc.core.RowCallbackHandler;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
@@ -22,7 +25,7 @@ public class SampleJdbcTemplateTest {
 	 */
 	@Test
 	public void test_query_resultSetExtractor() {
-		List<String> firstNames = jdbcTemplate.query("SELECT * FROM person", rs -> {
+		ResultSetExtractor<List<String>> resultSetExtractor = rs -> {
 			List<String> firstNameList = new ArrayList<>();
 
 			while (rs.next()) {
@@ -31,7 +34,9 @@ public class SampleJdbcTemplateTest {
 			}
 
 			return firstNameList;
-		});
+		};
+
+		List<String> firstNames = jdbcTemplate.query("SELECT * FROM person WHERE age >= ?", resultSetExtractor, 3);
 
 //		List<String> firstNames = jdbcTemplate.query("SELECT * FROM person", new ResultSetExtractor<>() { // Can be a Function instead.
 //			@Override
@@ -58,10 +63,12 @@ public class SampleJdbcTemplateTest {
 	public void test_query_rowCallbackHandler() {
 		List<String> firstNameList = new ArrayList<>();
 
-		jdbcTemplate.query("SELECT * FROM person", rs -> {
+		RowCallbackHandler rowCallbackHandler = rs -> {
 			String firstName = rs.getString("first_name");
 			firstNameList.add(firstName);
-		});
+		};
+
+		jdbcTemplate.query("SELECT * FROM person WHERE age >= ?", rowCallbackHandler, 3);
 
 //		jdbcTemplate.query("SELECT * FROM person", new RowCallbackHandler() { // Can be a Consumer instead.
 //			@Override
@@ -80,7 +87,9 @@ public class SampleJdbcTemplateTest {
 	 */
 	@Test
 	public void test_query_rowMapper() {
-		List<String> firstNameList = jdbcTemplate.query("SELECT * FROM person", (rs, rowNum) -> rs.getString("first_name"));
+		RowMapper<String> rowMapper = (rs, rowNum) -> rs.getString("first_name");
+
+		List<String> firstNameList = jdbcTemplate.query("SELECT * FROM person WHERE age >= ?", rowMapper, 3);
 
 //		List<String> firstNameList = jdbcTemplate.query("SELECT * FROM person", new RowMapper<>() { // Can be a BiFunction instead.
 //			@Override
@@ -125,7 +134,7 @@ public class SampleJdbcTemplateTest {
 
 	@Test
 	public void test_update() {
-		int updatedRows = jdbcTemplate.update("UPDATE person SET age = 33 WHERE first_name = 'max'");
+		int updatedRows = jdbcTemplate.update("UPDATE person SET age = ? WHERE first_name = ?", 33, "max"); // Can be an insert, update, or delete statement.
 
 		System.out.println(updatedRows);
 	}

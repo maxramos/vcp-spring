@@ -13,6 +13,33 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
+import ph.mramos.vcps.section03.entity.Person;
+
+/**
+ * query(sql, RowMapper)
+ *		- Can select multiple columns.
+ *		- Returns a list of complex object (i.e. generic type of RowMapper).
+ *
+ * queryForObject(sql, RowMapper)
+ *		- Can select multiple columns.
+ *		- Returns a single complex object (i.e. generic type of RowMapper).
+ *
+ * queryForList(sql)
+ * 		- Can select multiple columns.
+ * 		- Returns a list of Map<String, Object>.
+ *
+ * queryForMap(sql)
+ * 		- Can select multiple columns.
+ * 		- Returns a single Map<String, Object>.
+ *
+ * queryForList(sql, Class)
+ * 		- Can only select a single column.
+ * 		- Returns a list of simple object (e.g. String).
+ *
+ * queryForObject(sql, Class)
+ * 		- Can only select a single column.
+ * 		- Returns a single simple object (e.g. String).
+ */
 @SpringJUnitConfig(classes = SampleJdbcTemplateConfig.class)
 public class SampleJdbcTemplateTest {
 
@@ -24,35 +51,35 @@ public class SampleJdbcTemplateTest {
 	 * Has a return.
 	 */
 	@Test
-	public void test_query_resultSetExtractor() {
+	public void test_query_resultSetExtractor() { // Fetch multiple rows.
 		ResultSetExtractor<List<String>> resultSetExtractor = rs -> {
-			List<String> firstNameList = new ArrayList<>();
+			List<String> resultList = new ArrayList<>();
 
 			while (rs.next()) {
 				String firstName = rs.getString("first_name");
-				firstNameList.add(firstName);
+				resultList.add(firstName);
 			}
 
-			return firstNameList;
+			return resultList;
 		};
 
-		List<String> firstNames = jdbcTemplate.query("SELECT * FROM person WHERE age >= ?", resultSetExtractor, 3);
+		List<String> resultList = jdbcTemplate.query("SELECT * FROM person WHERE age >= ?", resultSetExtractor, 3);
 
-//		List<String> firstNames = jdbcTemplate.query("SELECT * FROM person", new ResultSetExtractor<>() { // Can be a Function instead.
+//		List<String> resultList = jdbcTemplate.query("SELECT * FROM person", new ResultSetExtractor<>() { // Can be a Function instead.
 //			@Override
 //			public List<String> extractData(ResultSet rs) throws SQLException {
-//				List<String> firstNameList = new ArrayList<>();
+//				List<String> resultList = new ArrayList<>();
 //
 //				while (rs.next()) {
 //					String firstName = rs.getString("first_name");
-//					firstNameList.add(firstName);
+//					resultList.add(firstName);
 //				}
 //
-//				return firstNameList;
+//				return resultList;
 //			}
 //		});
 
-		System.out.println(firstNames);
+		System.out.println(resultList);
 	}
 
 	/**
@@ -60,12 +87,12 @@ public class SampleJdbcTemplateTest {
 	 * Returns nothing.
 	 */
 	@Test
-	public void test_query_rowCallbackHandler() {
-		List<String> firstNameList = new ArrayList<>();
+	public void test_query_rowCallbackHandler() { // Fetch multiple rows.
+		List<String> resultList = new ArrayList<>();
 
 		RowCallbackHandler rowCallbackHandler = rs -> {
 			String firstName = rs.getString("first_name");
-			firstNameList.add(firstName);
+			resultList.add(firstName);
 		};
 
 		jdbcTemplate.query("SELECT * FROM person WHERE age >= ?", rowCallbackHandler, 3);
@@ -74,11 +101,11 @@ public class SampleJdbcTemplateTest {
 //			@Override
 //			public void processRow(ResultSet rs) throws SQLException {
 //				String firstName = rs.getString("first_name");
-//				firstNameList.add(firstName);
+//				resultList.add(firstName);
 //			}
 //		});
 
-		System.out.println(firstNameList);
+		System.out.println(resultList);
 	}
 
 	/**
@@ -86,44 +113,70 @@ public class SampleJdbcTemplateTest {
 	 * Returns a list.
 	 */
 	@Test
-	public void test_query_rowMapper() {
-		RowMapper<String> rowMapper = (rs, rowNum) -> rs.getString("first_name");
+	public void test_query_rowMapper() { // Fetch multiple rows.
+		RowMapper<Person> rowMapper = (rs, rowNum) -> {
+			Person person = new Person();
+			person.setId(rs.getInt("id"));
+			person.setFirstName(rs.getString("first_name"));
+			person.setLastName(rs.getString("last_name"));
+			person.setAge(rs.getInt("age"));
+			person.setBirthDate(rs.getDate("birth_date"));
+			person.setWeight(rs.getInt("weight"));
+			person.setHeight(rs.getInt("height"));
+			return person;
+		};
 
-		List<String> firstNameList = jdbcTemplate.query("SELECT * FROM person WHERE age >= ?", rowMapper, 3);
+		List<Person> resultList = jdbcTemplate.query("SELECT * FROM person WHERE age >= ?", rowMapper, 3); // Fetch multiple columns.
 
-//		List<String> firstNameList = jdbcTemplate.query("SELECT * FROM person", new RowMapper<>() { // Can be a BiFunction instead.
+//		List<String> resultList = jdbcTemplate.query("SELECT * FROM person", new RowMapper<>() { // Can be a BiFunction instead.
 //			@Override
 //			public String mapRow(ResultSet rs, int rowNum) throws SQLException {
 //				return rs.getString("first_name");
 //			}
 //		});
 
-		System.out.println(firstNameList);
+		System.out.println(resultList);
 	}
 
 	@Test
-	public void test_queryForList() {
-		List<Map<String, Object>> results = jdbcTemplate.queryForList("SELECT * FROM person");
+	public void test_queryForList() { // Fetch multiple rows.
+//		List<Map<String, Object>> results = jdbcTemplate.queryForList("SELECT * FROM person"); // Fetch multiple columns.
 
-		System.out.println(results);
+		List<String> resultList = jdbcTemplate.queryForList("SELECT first_name FROM person WHERE age >= ?", String.class, 3); // Fetch single column. Does not allow complex types like Entity classes, use query(sql, RowMapper) instead.
+
+		System.out.println(resultList);
 	}
 
 	@Test
-	public void test_queryForMap() {
-		Map<String, Object> results = jdbcTemplate.queryForMap("SELECT * FROM person WHERE first_name = 'max'");
+	public void test_queryForMap() { // Fetch single row.
+		Map<String, Object> result = jdbcTemplate.queryForMap("SELECT * FROM person WHERE first_name = ?", "max"); // Fetch multiple columns.
 
-		System.out.println(results);
+		System.out.println(result);
 	}
 
 	@Test
-	public void test_queryForObject_rowMapper() {
-		String firstName = jdbcTemplate.queryForObject("SELECT * FROM person WHERE first_name = 'max'", (rs, rowNum) -> rs.getString("first_name"));
+	public void test_queryForObject_rowMapper() { // Fetch single row.
+		RowMapper<Person> rowMapper = (rs, rowNum) -> {
+			Person person = new Person();
+			person.setId(rs.getInt("id"));
+			person.setFirstName(rs.getString("first_name"));
+			person.setLastName(rs.getString("last_name"));
+			person.setAge(rs.getInt("age"));
+			person.setBirthDate(rs.getDate("birth_date"));
+			person.setWeight(rs.getInt("weight"));
+			person.setHeight(rs.getInt("height"));
+			return person;
+		};
 
-		System.out.println(firstName);
+		Person result = jdbcTemplate.queryForObject("SELECT * FROM person WHERE first_name = ?", rowMapper, "max"); // Fetch multiple columns.
+
+//		String result = jdbcTemplate.queryForObject("SELECT first_name FROM person WHERE age = ?", String.class, 33); // Fetch single column. Does not allow complex types like Entity classes, use queryForObject(sql, RowMapper) instead.
+
+		System.out.println(result);
 	}
 
 	@Test
-	public void test_queryForRowSet() {
+	public void test_queryForRowSet() { // Fetch multiple rows.
 		SqlRowSet sqlRowSet = jdbcTemplate.queryForRowSet("SELECT * FROM person");
 
 		while (sqlRowSet.next()) { // Just like ResultSet processing.

@@ -29,9 +29,16 @@ public class SampleJpaTransactionTest {
 		persons.forEach(System.out::println);
 	}
 
+	/**
+	 * - Programmatic alternative to @Transactional is to use TransactionTemplate.
+	 * - Self invocation of proxied bean methods (with @Transactional) will not honor the @Transactional config of the method being called. It will run on the transaction context of the caller method.
+	 * - When using Spring AOP proxies, only public methods can be intercepted. Other access modifiers will not throw an error but transaction management will not be triggered.
+	 * - Default rollback policy for regular methods is rollback on unchecked exceptions.
+	 * - Default rollback policy for test methods is rollback after completion regardless of an exception (either checked or unchecked) being thrown or not.
+	 */
 	@Test
-	@Transactional // Be careful to import org.springframework.transaction.annotation.Transactional and NOT javax.transaction.Transactional otherwise there will be errors.
-	@Rollback(false)
+	@Transactional // Be careful to import org.springframework.transaction.annotation.Transactional and NOT javax.transaction.Transactional. Those from Spring has more config attributes.
+	@Rollback(false) // For test only.
 	public void test_transaction() {
 		Person person = new Person("nikki1", "tan1", 35, Date.from(LocalDate.of(1986, 12, 25).atStartOfDay().toInstant(ZoneOffset.UTC)), 62, 157.48);
 		em.persist(person);

@@ -12,7 +12,7 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
-@EnableTransactionManagement
+@EnableTransactionManagement // Must be applied only once. Should applied to @Configuration file. Enables annotation driven transaction management.
 public class SampleJpaTransactionConfig {
 
 	@Bean
@@ -21,7 +21,7 @@ public class SampleJpaTransactionConfig {
 	}
 
 	@Bean
-	public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
+	public LocalContainerEntityManagerFactoryBean entityManagerFactory() { // Has a counterpart LocalEntityManagerFactoryBean but has no datasource setter.
 		HibernateJpaVendorAdapter jpaVendorAdapter = new HibernateJpaVendorAdapter();
 		jpaVendorAdapter.setShowSql(true);
 

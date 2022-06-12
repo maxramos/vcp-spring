@@ -20,4 +20,9 @@ public class SampleJdbcTemplateConfig {
 		return new JdbcTemplate(dataSource());
 	}
 
+//	@Bean
+//	public PlatformTransactionManager transactionManager() {
+//		return new DataSourceTransactionManager(dataSource()); // Alternative to JpaTransactionManager when not using JPA.
+//	}
+
 }

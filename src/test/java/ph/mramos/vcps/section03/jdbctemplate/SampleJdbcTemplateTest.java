@@ -11,9 +11,12 @@ import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.RowCallbackHandler;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
+import org.springframework.transaction.annotation.Transactional;
 
 import ph.mramos.vcps.section03.entity.Person;
+import ph.mramos.vcps.section04.springdatajpa.repository.PersonJdbcRepository;
 
 /**
  * query(sql, RowMapper)
@@ -40,11 +43,14 @@ import ph.mramos.vcps.section03.entity.Person;
  * 		- Can only select a single column.
  * 		- Returns a single simple object (e.g. String).
  */
-@SpringJUnitConfig(classes = SampleJdbcTemplateConfig.class)
+@SpringJUnitConfig(classes = { SampleJdbcTemplateConfig.class, PersonJdbcRepository.class })
 public class SampleJdbcTemplateTest {
 
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
+
+	@Autowired
+	private PersonJdbcRepository personJdbcRepository;
 
 	/**
 	 * ResultSetExtractor - extracts data from result set all at once.
@@ -121,8 +127,8 @@ public class SampleJdbcTemplateTest {
 			person.setLastName(rs.getString("last_name"));
 			person.setAge(rs.getInt("age"));
 			person.setBirthDate(rs.getDate("birth_date"));
-			person.setWeight(rs.getInt("weight"));
-			person.setHeight(rs.getInt("height"));
+			person.setWeight(rs.getDouble("weight"));
+			person.setHeight(rs.getDouble("height"));
 			return person;
 		};
 
@@ -163,8 +169,8 @@ public class SampleJdbcTemplateTest {
 			person.setLastName(rs.getString("last_name"));
 			person.setAge(rs.getInt("age"));
 			person.setBirthDate(rs.getDate("birth_date"));
-			person.setWeight(rs.getInt("weight"));
-			person.setHeight(rs.getInt("height"));
+			person.setWeight(rs.getDouble("weight"));
+			person.setHeight(rs.getDouble("height"));
 			return person;
 		};
 
@@ -185,9 +191,24 @@ public class SampleJdbcTemplateTest {
 		}
 	}
 
+	/**
+	 * - Missing @Transactional on methods (both test and regular) that use JdbcTemplate to update state will not throw an error and each individual statement will effectively runs on its own transaction.
+	 * - @EnableTransactionManagement is required to enable the use of @Transactional otherwise each individual statement will effectively runs on its own transaction.
+	 *
+	 * - If @Transactional is present then PlatformTransactionManager must be present as a bean otherwise an error will be thrown.
+	 */
 	@Test
+	@Transactional // Be careful to import org.springframework.transaction.annotation.Transactional and NOT javax.transaction.Transactional. Those from Spring has more config attributes.
+	@Rollback(false) // For test only. Not required for test methods annotated with @Transactional to rollback. Typically, will only be used if rollback is not desired (i.e. @Rollback(false)).
 	public void test_update() {
-		int updatedRows = jdbcTemplate.update("UPDATE person SET age = ? WHERE first_name = ?", 33, "max"); // Can be an insert, update, or delete statement.
+		int updatedRows = jdbcTemplate.update("UPDATE person SET age = ? WHERE first_name = ?", 31, "max"); // Can be an insert, update, or delete statement.
+
+		System.out.println(updatedRows);
+	}
+
+	@Test
+	public void test_update2() {
+		int updatedRows = personJdbcRepository.updateAgeByFirstName(31, "max");
 
 		System.out.println(updatedRows);
 	}

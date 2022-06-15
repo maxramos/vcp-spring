@@ -12,6 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.domain.Sort.TypedSort;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import ph.mramos.vcps.section03.entity.Person;
@@ -30,11 +31,18 @@ public class SampleSpringDataJpaTest {
 	}
 
 	@Test
-	public void test_findAll_example() {
+	public void test_findAll_example() { // When using query by example, make sure that the fields are NOT of primitive type since the matcher includes by default all non null fields in its processing.
 		Person person = new Person();
-		person.setFirstName("MAX");
-		person.setLastName("RAMOS");
-		Example<Person> example = Example.of(person, ExampleMatcher.matchingAny().withIgnoreCase());
+		person.setFirstName("MA");
+		person.setLastName("RAMOS"); // Has an issue with MySQL.
+//		Example<Person> example = Example.of(person, ExampleMatcher.matching().withIgnoreCase().withStringMatcher(StringMatcher.STARTING)); // Cab be ExampleMatcher.matchingAll().
+//		Example<Person> example = Example.of(person, ExampleMatcher.matchingAny().withIgnoreCase().withStringMatcher(StringMatcher.EXACT));
+//		Example<Person> example = Example.of(person, ExampleMatcher.matching()
+//				.withMatcher("firstName", GenericPropertyMatchers.startsWith().ignoreCase()) // Property path can be nest (e.g. address.city)
+//				.withMatcher("lastName", GenericPropertyMatchers.exact().ignoreCase()));
+		Example<Person> example = Example.of(person, ExampleMatcher.matching()
+				.withMatcher("firstName", matcher -> matcher.startsWith().ignoreCase())
+				.withMatcher("lastName", matcher -> matcher.exact().ignoreCase()));
 
 		List<Person> persons = personRepository.findAll(example);
 		persons.forEach(System.out::println);
@@ -42,19 +50,30 @@ public class SampleSpringDataJpaTest {
 
 	@Test
 	public void test_findAll_pageable() {
-		Page<Person> page = personRepository.findAll(PageRequest.of(1, 3));
+		Page<Person> page = personRepository.findAll(PageRequest.of(0, 2, Sort.by(Direction.DESC, "firstName"))); // Page number is 0 based.
 		List<Person> persons = page.getContent();
 		persons.forEach(System.out::println);
 
-		System.out.println(page.getNumber()); // Page number. Starts with 0.
+		System.out.println(page.getNumber()); // Page number of the page. Starts with 0.
 		System.out.println(page.getNumberOfElements()); // Actual number of elements in the slice.
-		System.out.println(page.getSize()); // Slice size (capacity). Not the actual number of elements.
+		System.out.println(page.getSize()); // Slice size (capacity) of the page. Not the actual number of elements.
 		System.out.println(page.getTotalElements()); // Overall total number of elements.
+		System.out.println(page.getTotalPages()); // Total number of pages.
 	}
 
 	@Test
 	public void test_findAll_sort() {
-		List<Person> persons = personRepository.findAll(Sort.by(Direction.DESC, "firstName"));
+//		Sort sort = Sort.by(Direction.DESC, "firstName")
+//				.and(Sort.by(Direction.DESC, "lastName"));
+
+//		Sort sort = Sort.by("firstName").descending()
+//				.and(Sort.by("lastName").descending());
+
+		TypedSort<Person> person = Sort.sort(Person.class);
+		Sort sort = person.by(Person::getFirstName).ascending()
+				.and(person.by(Person::getLastName).descending());
+
+		List<Person> persons = personRepository.findAll(sort);
 		persons.forEach(System.out::println);
 	}
 

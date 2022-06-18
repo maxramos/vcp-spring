@@ -17,8 +17,9 @@ import ph.mramos.vcps.section03.entity.Person;
 import ph.mramos.vcps.section04.springdatajpa.service.PersonService;
 
 /**
- * If the method param is primitive then @RequestParam is optional (provided there are no other argument resolvers).
- * If the method param is a custom object then @ModelAttribute is optional. Request params are automatically binded to the object's fields (provided there are no other argument resolvers).
+ * If method param is not annotated with anything then it will be processed as (provided that it's not included in the types with special handling like WebRequest, ServletRequest, etc.):
+ * 	- If the method param is primitive/simple type then @RequestParam is optional (provided there are no other argument resolvers) and will be treated as if it was annotated by @RequestParam.
+ *	- If the method param is a custom/complex type then @ModelAttribute is optional. Request params are automatically binded to the object's fields (provided there are no other argument resolvers) and will be treated as if it was annotated by @ModelAttribute.
  */
 @Controller
 @RequestMapping("/person")

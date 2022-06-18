@@ -31,7 +31,7 @@ public class MultiWebSecurityConfig {
 
 	@Configuration
 	@Order(1)
-	public static class ApiWebSecurityConfig extends WebSecurityConfigurerAdapter {
+	public static class ApiWebSecurityConfig extends WebSecurityConfigurerAdapter { // Don't get confused with the interface WebMcvConfigurer which needed to be implemented instead of extended.
 
 		@Override
 		protected void configure(HttpSecurity http) throws Exception {

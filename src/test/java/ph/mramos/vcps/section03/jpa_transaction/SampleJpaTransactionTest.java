@@ -47,9 +47,12 @@ public class SampleJpaTransactionTest {
 	 * - Use @Rollback(true) on the test method to rollback changes even if @Transactional is annotated on the regular method.
 	 *
 	 * - If @Transactional is present then PlatformTransactionManager must be present as a bean otherwise an error will be thrown.
+	 *
+	 * - rollBackFor, rollbackForClassName, noRollBackFor, noRollbackForClassName
+	 *   These attributes does not override the default exceptions/errors that cause rollback/non-rollback but instead complement/add to it.
 	 */
 	@Test
-	@Transactional // Be careful to import org.springframework.transaction.annotation.Transactional and NOT javax.transaction.Transactional. Those from Spring has more config attributes.
+	@Transactional() // Be careful to import org.springframework.transaction.annotation.Transactional and NOT javax.transaction.Transactional. Those from Spring has more config attributes.
 	@Rollback(false) // For test only. Not required for test methods annotated with @Transactional to rollback. Typically, will only be used if rollback is not desired (i.e. @Rollback(false)).
 	public void test_transaction() {
 		Person person = new Person("nikki1", "tan1", 35, Date.from(LocalDate.of(1986, 12, 25).atStartOfDay().toInstant(ZoneOffset.UTC)), 62.0, 157.48);

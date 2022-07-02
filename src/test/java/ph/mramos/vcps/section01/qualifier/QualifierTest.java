@@ -67,6 +67,14 @@ public class QualifierTest {
 	@Autowired
 	private SampleQualifiedBean3 sampleQualifiedBean3;
 
+	@Qualifier("sampleQualifiedComponent3")
+	@Autowired
+	private SampleQualifiedComponent3 sampleQualifiedComponent3Field1;
+
+	@Qualifier("sampleComponent3")
+	@Autowired
+	private SampleQualifiedComponent3 sampleQualifiedComponent3Field2;
+
 	@Test
 	public void test_qualifier() {
 		sampleQualifiedBean0.run();
@@ -106,6 +114,13 @@ public class QualifierTest {
 		SampleQualifiedBean3 sampleQualifiedBean3Instance2 = appContext.getBean("sampleQualifiedBean3Instance2", SampleQualifiedBean3.class);
 		System.out.println("SampleQualifiedBean3 == sampleQualifiedBean3Instance2: " + (sampleQualifiedBean3 == sampleQualifiedBean3Instance2));
 		sampleQualifiedBean3.run();
+
+		System.out.println();
+
+		sampleQualifiedComponent3Field1.run();
+		sampleQualifiedComponent3Field2.run();
+
+		System.out.println("SampleQualifiedComponent3 Field 1 == 2: " + (sampleQualifiedComponent3Field1 == sampleQualifiedComponent3Field2));
 	}
 
 }
